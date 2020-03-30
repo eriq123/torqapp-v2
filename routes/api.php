@@ -21,14 +21,19 @@ use Illuminate\Http\Request;
 // });
 
 Route::post('login', 'Api\AuthController@login');
-Route::post('readprofile', 'Api\ProfileController@readprofile');
-Route::post('editprofile', 'Api\ProfileController@editprofile');
-Route::post('ppmp/view', 'Api\RequestController@ppmpview');
-Route::post('ppmps/view', 'Api\RequestController@ppmpviews');
-Route::post('app/view', 'Api\RequestController@appview');
-Route::post('apps/view', 'Api\RequestController@appview');
-Route::post('ex', 'Api\RequestController@dept');
-Route::post('course/budget', 'Api\RequestController@budget');
-Route::post('courses/budget', 'Api\RequestController@budgets');
-Route::post('sign', 'Api\AuthController@Sign');
-Route::post('api/request/track', 'Api\AuthController@reqtrack');
+
+Route::group(['middleware' => ['auth:api']], function () 
+{
+	Route::post('ppmp/all', 'Api\RequestController@ppmp_all');
+	Route::post('ppmp/course', 'Api\RequestController@ppmp');
+});
+// Route::post('readprofile', 'Api\ProfileController@readprofile');
+// Route::post('editprofile', 'Api\ProfileController@editprofile');
+// Route::post('ppmp/view', 'Api\RequestController@ppmpview');
+// Route::post('app/view', 'Api\RequestController@appview');
+// Route::post('apps/view', 'Api\RequestController@appview');
+// Route::post('ex', 'Api\RequestController@dept');
+// Route::post('course/budget', 'Api\RequestController@budget');
+// Route::post('courses/budget', 'Api\RequestController@budgets');
+// Route::post('sign', 'Api\AuthController@Sign');
+// Route::post('api/request/track', 'Api\AuthController@reqtrack');

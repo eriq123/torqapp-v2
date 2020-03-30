@@ -54,6 +54,11 @@
 					</div>
 				</div>
 			</section>
+
+			<hr>
+
+			@include('partials.report.approve_request',['role'=>Auth::user()->RoleName])
+			
 		</div>
 	</div>		
 </section>
@@ -64,12 +69,14 @@
 
 @section('js')
 @include('partials.import.main',['import'=>"datatable",'type'=>'js'])
+@include('partials.report.TableRequest')
 
 <script>
 	$(document).ready(function(){
 
 		var table1 = $('#Table1').DataTable();
-		table1.order([4,'desc']).draw();
+			table1.order([4,'desc']).draw();
+
 	});
 </script>
 @endsection

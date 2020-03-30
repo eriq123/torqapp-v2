@@ -80,6 +80,7 @@
 
 @section('js')
 @include('partials.import.main',['import'=>"datatable",'type'=>'js'])
+@include('partials.report.TableRequest')
 
 <script>
 	$(document).ready(function(){
@@ -89,11 +90,7 @@
 			{ "bSortable": false, "aTargets": [ 1 ] }, 
 			]
 		});
-		$('#Table2').DataTable({     
-			"aoColumnDefs": [
-			{ "bSortable": false, "aTargets": [ 1 ] }, 
-			]
-		});
+
 	});
 </script>
 @endsection

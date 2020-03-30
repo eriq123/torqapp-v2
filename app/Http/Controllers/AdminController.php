@@ -5,12 +5,52 @@ namespace App\Http\Controllers;
 use App\Course;
 use App\Department;
 use App\User;
+use App\Ppmp;
+use App\App;
+use App\Requests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Role;
 
 class AdminController extends Controller
 {
+
+    public function list($type){
+        if ($type == "PPMP") {
+            $ppmps = Ppmp::all();
+
+            return view('admin.ppmp',compact('ppmps'));
+        }elseif ($type == "APP") {
+            $apps = App::all();
+
+            return view('admin.app',compact('apps'));
+        }elseif ($type == "Requests") {
+            $requests = Requests::all();
+
+            return view('admin.request',compact('requests'));
+        }
+    }
+
+    public function delete(Request $request){
+        $id = $request->get('id');
+        if ($request->get('submit') == "ppmp") {
+            $ppmp = Ppmp::findorFail($id);
+            $ppmp->delete();
+
+            return redirect()->back()->withSuccess("PPMP deleted!");
+        }elseif ($request->get('submit') == "app") {
+            $app = App::findorFail($id);
+            $app->delete();
+
+            return redirect()->back()->withSuccess("APP deleted!");
+        }elseif ($request->get('submit') == "request") {
+            $requests = Requests::findorFail($id);
+            $requests->delete();
+
+            return redirect()->back()->withSuccess("Request deleted!");
+        }
+    }
+// before ppmp app and request
     public function department(){
 
     	$departments = Department::all();

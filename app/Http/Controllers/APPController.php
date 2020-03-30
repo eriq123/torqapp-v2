@@ -53,9 +53,9 @@ class APPController extends Controller
 				$app->status = "Approved";
 			}
 
-			$app->save();
 
 			if (Auth::user()->signature) {
+				$app->save();
 
 				// start notification
 		        $app_data = array(

@@ -44,6 +44,8 @@ Route::group(['middleware' => ['auth','web']], function ()
 			Route::get('/Admin/Account','AdminController@account')->name('account');
 			Route::post('/Admin/Account/actions','AdminController@account_actions')->name('account_actions');
 
+			Route::get('/Admin/list/{type}','AdminController@list')->name('list');
+			Route::post('/Admin/list/action','AdminController@delete')->name('delete');
 		});
 	});
 

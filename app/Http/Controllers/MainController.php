@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Course;
 use App\Notifications\AppNotification;
 use App\Notifications\PpmpNotification;
+use App\App;
 use App\Ppmp;
 use App\Requests;
 use App\User;
@@ -19,13 +20,13 @@ class MainController extends Controller
 {
 
     // reports
-    public function submitted_ppmp($status){
-        return PPMP::where('status',$status)->get();
-    }
+        public function submitted_ppmp($status){
+            return PPMP::where('status',$status)->get();
+        }
 
-    public function approve_request($status){
-        return Requests::where('status',$status)->get();
-    }
+        public function approve_request($status){
+            return Requests::where('status',$status)->get();
+        }
 
     public function index(){
 
@@ -42,40 +43,56 @@ class MainController extends Controller
 
             return view('budget.content',compact('courses'));
         }
-        elseif(Auth::user()->hasRole('ADAA')) //request report 
+        elseif(Auth::user()->hasRole('ADAA')) //done 
         {
             $ppmps = $this->submitted_ppmp("Submitted");
             $requests = $this->approve_request("ADAA");
 
             return view('adaa.content',compact('ppmps','requests'));
         }
-        elseif(Auth::user()->hasRole('Campus Director')) //request report
+        elseif(Auth::user()->hasRole('Campus Director')) //done
         {
             $ppmps = $this->submitted_ppmp("Submitted");
 
-            return view('director.content',compact('ppmps'));
+            $bac_chairperson_approved = App::where('recommended','!=',null)->get();
+            $apps = $bac_chairperson_approved->where('approved',null);
+
+            $requests = $this->approve_request("Campus Director");
+
+            return view('director.content',compact('ppmps','requests','apps'));
         }
-        elseif(Auth::user()->hasRole('BAC Secretary')) //report to approve
+        elseif(Auth::user()->hasRole('BAC Secretary')) //done
         {
-            return view('bac_sec.content');
+            $apps = App::where('prepared',null)->get();
+            $requests = $this->approve_request("BAC Secretary");
+
+            return view('bac_sec.content',compact('apps','requests'));
         }
-        elseif(Auth::user()->hasRole('BAC Chairperson')) //APP that needs your sign
+        elseif(Auth::user()->hasRole('BAC Chairperson')) //done
         {
-            return view('bac_sec.content');
+            $bac_sec_approved = App::where('prepared','!=',null)->get();
+            $apps = $bac_sec_approved->where('recommended',null);
+
+            return view('bac_chairperson.content',compact('apps'));
         }
-        elseif(Auth::user()->hasRole('Department Head')) //done...
+        elseif(Auth::user()->hasRole('Department Head')) //done
         {
             $courses = Course::where('department_id',Auth::user()->department_id)->get();
+            $requests = $this->approve_request("Department Head");
 
-            return view('department.content',compact('courses'));
+            return view('department.content',compact('courses','requests'));
         }
-        elseif(Auth::user()->hasRole('Procurement')) //request to approve
+        elseif(Auth::user()->hasRole('Procurement')) //done
         {
-            return view('procurement.content');
+            $requests = $this->approve_request("Procurement");
+
+            return view('procurement.content',compact('requests'));
         }
-        elseif(Auth::user()->hasRole('Supplies')) //request to approve
+        elseif(Auth::user()->hasRole('Supplies')) //done
         {
-            return view('supplies.content');
+            $requests = $this->approve_request("Supplies");
+
+            return view('supplies.content',compact('requests'));
         }
     	else
     	{

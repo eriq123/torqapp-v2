@@ -24,23 +24,24 @@ class ReportsController extends Controller
 
 		foreach ($supplies as $k => $v) {
 			$r_supplies = RequestItems::where('item_id',$v->id)->first();
+			if ($r_supplies) {
+				if ($r_supplies->status == "Fulfilled") {
 
-			if ($r_supplies->status == "Fulfilled") {
+			    	if($v->app->type == "Supplemental"){
+		    			$SupplementalTotal += $r_supplies->total;
+		    		}elseif($v->app->type == "Supplies/Equipment"){
+		    			$SuppliesTotal += $r_supplies->total;
+		    		}
 
-		    	if($v->app->type == "Supplemental"){
-	    			$SupplementalTotal += $r_supplies->total;
-	    		}elseif($v->app->type == "Supplies/Equipment"){
-	    			$SuppliesTotal += $r_supplies->total;
-	    		}
+				}else{
 
-			}else{
+			    	if($v->app->type == "Supplemental"){
+		    			$SupplementalTotal += $v->total;
+		    		}elseif($v->app->type == "Supplies/Equipment"){
+		    			$SuppliesTotal += $v->total;
+		    		}
 
-		    	if($v->app->type == "Supplemental"){
-	    			$SupplementalTotal += $v->total;
-	    		}elseif($v->app->type == "Supplies/Equipment"){
-	    			$SuppliesTotal += $v->total;
-	    		}
-
+				}
 			}
 
     	}
@@ -48,24 +49,25 @@ class ReportsController extends Controller
 		foreach ($equipment as $k => $v) {
 			$r_equipment = RequestItems::where('item_id',$v->id)->first();
 
-			if ($r_equipment == "Fulfilled") {
-		    	
-		    	if($v->app->type == "Supplemental"){
-	    			$SupplementalTotal += $r_equipment->total;
-	    		}elseif($v->app->type == "Supplies/Equipment"){
-	    			$EquipmentTotal += $r_equipment->total;
-	    		}
+			if($r_equipment){
+				if ($r_equipment == "Fulfilled") {
+			    	
+			    	if($v->app->type == "Supplemental"){
+		    			$SupplementalTotal += $r_equipment->total;
+		    		}elseif($v->app->type == "Supplies/Equipment"){
+		    			$EquipmentTotal += $r_equipment->total;
+		    		}
 
-			}else{
+				}else{
 
-		    	if($v->app->type == "Supplemental"){
-	    			$SupplementalTotal += $v->total;
-	    		}elseif($v->app->type == "Supplies/Equipment"){
-	    			$EquipmentTotal += $v->total;
-	    		}
+			    	if($v->app->type == "Supplemental"){
+		    			$SupplementalTotal += $v->total;
+		    		}elseif($v->app->type == "Supplies/Equipment"){
+		    			$EquipmentTotal += $v->total;
+		    		}
 
+				}
 			}
-    		
     	}
 
     	$total = array(

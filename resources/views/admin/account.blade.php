@@ -4,7 +4,7 @@
 	@include('partials.role-header')
 	<div class="row">
 		<div class="col-md-12">
-
+			
 			<section class="panel panel-featured">
 				<header class="panel-heading">
 					<h2 class="panel-title">Manage Accounts</h2>

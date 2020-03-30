@@ -27,7 +27,7 @@
 				<div class="row">
 					<div class="col-md-8"></div>
 					<div class="col-md-4">
-						<input type="text" class="form-control" name = "RequestDate" id="RequestDate" autocomplete="off" placeholder="date">
+						<input type="text" class="form-control" name = "RequestDate" id="RequestDate" autocomplete="off" placeholder="date" required>
 					</div>
 				</div>
 

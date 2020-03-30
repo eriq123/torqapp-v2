@@ -19,6 +19,7 @@ class VerifyCsrfToken extends Middleware
      * @var array
      */
     protected $except = [
-        //
+        // 'https://ac54a27a.ngrok.io/torqappv2/public/api/login',
+        // 'http://192.168.254.175/api/ppmp/all',  
     ];
 }
